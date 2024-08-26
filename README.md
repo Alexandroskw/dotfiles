@@ -70,7 +70,7 @@ $ stow -R nvim alacritty tmux
 Now you have the most fresh updates for the configs.
 
 > [!IMPORTANT]
-> If you made some local changes, fisrt `stash` the changes before you `pull` the repository. This will avoid conflicts with Git.
+> If you made some local changes, first `stash` the changes before you `pull` the repository. This will avoid conflicts with Git.
 
 # Important Considerations
 1. Install [`tpm` (*Tmux Plugin Manager*)](https://github.com/tmux-plugins/tpm).
