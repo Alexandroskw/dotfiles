@@ -74,5 +74,6 @@ Now you have the most fresh updates for the configs.
 
 # Important Considerations
 1. Install [`tpm` (*Tmux Plugin Manager*)](https://github.com/tmux-plugins/tpm).
-  - Once you installed the `tpm` use the command `<prefix> + I` for install all the plugins.
+   - Once you installed the `tpm` use the command `<prefix> + I` for install all the plugins.
 2. For the **Neovim** plugins go to `plugins.lua` with Neovim and set the source file in command mode with `:so` or `:source %` and then use `:PackerInstall`.
+3. Like the first point, you need to clone the [themes repository](https://github.com/alacritty/alacritty-theme) and follow the instructions. 
