@@ -67,6 +67,13 @@ return require("packer").startup(function(use)
         })
         use("tpope/vim-fugitive")
         use("nvim-tree/nvim-tree.lua")
+        use({
+                "folke/which-key.nvim",
+                config = function()
+                        vim.o.timeout = true
+                        vim.o.timeoutlen = 500
+                end
+        })
         use("stevearc/dressing.nvim")
         -- My plugins here
         -- use 'foo1/bar1.nvim'
