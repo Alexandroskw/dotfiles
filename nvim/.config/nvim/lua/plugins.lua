@@ -67,6 +67,7 @@ return require("packer").startup(function(use)
         })
         use("tpope/vim-fugitive")
         use("nvim-tree/nvim-tree.lua")
+        use("stevearc/dressing.nvim")
         -- My plugins here
         -- use 'foo1/bar1.nvim'
         -- use 'foo2/bar2.nvim'
