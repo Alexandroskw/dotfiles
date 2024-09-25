@@ -29,7 +29,7 @@ return require("packer").startup(function(use)
                 "williamboman/mason-lspconfig.nvim",
                 "neovim/nvim-lspconfig",
         })
-        -- use("EdenEast/nightfox.nvim")
+        use("EdenEast/nightfox.nvim")
         use("ellisonleao/gruvbox.nvim")
         use("lewis6991/gitsigns.nvim")
         use({
