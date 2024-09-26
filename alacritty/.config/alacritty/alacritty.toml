@@ -17,7 +17,7 @@ class = { instance = "Alacritty", general = "Alacritty" }
 dimensions = { columns = 100, lines = 30 }
 
 [shell]
-program = "/bin/bash"
+program = "/bin/zsh"
 
 [font]
 normal = { family = "FiraCode Nerd Font Ret", style = "Regular" }
