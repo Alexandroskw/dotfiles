@@ -30,4 +30,15 @@ require("gruvbox").setup({
 	dim_inactive = true,
 })
 
-vim.cmd("colorscheme gruvbox")
+require("nightfox").setup({
+	options = {
+		styles = {
+			comments = "italic",
+		},
+		palettes = {
+			comment = "#a4a4a4",
+		},
+	},
+})
+
+vim.cmd("colorscheme duskfox")
