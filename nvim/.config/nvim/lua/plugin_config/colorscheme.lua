@@ -31,14 +31,15 @@ require("gruvbox").setup({
 })
 
 require("nightfox").setup({
-	options = {
-		styles = {
-			comments = "italic",
-		},
-		palettes = {
-			comment = "#a4a4a4",
-		},
-	},
+        options = {
+                styles = {
+                        comments = "italic",
+
+                },
+                palettes = {
+                        comment = "#a4a4a4",
+                }
+        }
 })
 
 vim.cmd("colorscheme duskfox")

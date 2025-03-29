@@ -77,3 +77,4 @@ Now you have the most fresh updates for the configs.
    - Once you installed the `tpm` use the command `<prefix> + I` for install all the plugins.
 2. For the **Neovim** plugins go to `plugins.lua` with Neovim and set the source file in command mode with `:so` or `:source %` and then use `:PackerInstall`.
 3. Like the first point, you need to clone the [themes repository](https://github.com/alacritty/alacritty-theme) and follow the instructions. 
+4. The scripts are for `bash` shell not for `zsh`. Just have to make some changes to the script for avoid some issues at the execution of the script.
