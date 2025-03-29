@@ -1,87 +1,86 @@
-local ensure_packer = function()
-        local fn = vim.fn
-        local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-        if fn.empty(fn.glob(install_path)) > 0 then
-                fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-                vim.cmd([[packadd packer.nvim]])
-                return true
+local function bootstrap_pckr()
+        local pckr_path = vim.fn.stdpath("data") .. "/pckr/pckr.nvim"
+
+        if not (vim.uv or vim.loop).fs_stat(pckr_path) then
+                vim.fn.system({
+                        'git',
+                        'clone',
+                        "--filter=blob:none",
+                        'https://github.com/lewis6991/pckr.nvim',
+                        pckr_path
+                })
         end
-        return false
+
+        vim.opt.rtp:prepend(pckr_path)
 end
 
-local packer_bootstrap = ensure_packer()
+bootstrap_pckr()
 
-return require("packer").startup(function(use)
-        use("wbthomason/packer.nvim")
-        use {
-                'goolord/alpha-nvim',
-                config = function()
-                        require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
-                end
-        }
-        use("lukas-reineke/indent-blankline.nvim")
-        use("nvim-lualine/lualine.nvim")
-        use("nvim-tree/nvim-web-devicons")
-        use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
-        use("nvim-treesitter/playground")
-        use({
-                "williamboman/mason.nvim",
-                "williamboman/mason-lspconfig.nvim",
-                "neovim/nvim-lspconfig",
-        })
-        use("EdenEast/nightfox.nvim")
-        use("ellisonleao/gruvbox.nvim")
-        use("lewis6991/gitsigns.nvim")
-        use({
-                "nvim-telescope/telescope.nvim",
-                tag = "0.1.8",
-                -- or                            , branch = '0.1.x',
-                requires = { { "nvim-lua/plenary.nvim" } },
-        })
-        use({
-                "VonHeikemen/lsp-zero.nvim",
-                branch = "v3.x",
-                requires = {
-                        --- Uncomment the two plugins below if you want to manage the language servers from neovim
-                        -- {'williamboman/mason.nvim'},
-                        -- {'williamboman/mason-lspconfig.nvim'},
-
-                        { "hrsh7th/nvim-cmp" },
-                        { "hrsh7th/cmp-nvim-lsp" },
-                        { "L3MON4D3/LuaSnip" },
-                        { "rafamadriz/friendly-snippets" }
-                },
-        })
-        use("christoomey/vim-tmux-navigator")
-        use("mfussenegger/nvim-dap")
-        use("rcarriga/nvim-dap-ui")
-        use("rust-lang/rust.vim")
-        use("nvimtools/none-ls.nvim")
-        use("mrcjkb/rustaceanvim")
-        use("nvim-neotest/nvim-nio")
-        use("nvim-lua/plenary.nvim")
-        use({
-                "ThePrimeagen/harpoon",
-                branch = "harpoon2",
-                requires = { { "nvim-lua/plenary.nvim" } },
-        })
-        use("tpope/vim-fugitive")
-        use("nvim-tree/nvim-tree.lua")
-        use({
-                "folke/which-key.nvim",
-                config = function()
-                        vim.o.timeout = true
-                        vim.o.timeoutlen = 500
-                end
-        })
-        use("stevearc/dressing.nvim")
+require('pckr').add{
         -- My plugins here
-        -- use 'foo1/bar1.nvim'
-        -- use 'foo2/bar2.nvim'
+        -- 'foo1/bar1.nvim';
+        -- 'foo2/bar2.nvim';
+        "wbthomason/packer.nvim",
+        {
+            'goolord/alpha-nvim',
+            config = function()
+                    require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
+            end
+        },
+        "lukas-reineke/indent-blankline.nvim",
+        "nvim-lualine/lualine.nvim",
+        "nvim-tree/nvim-web-devicons",
+        "nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" },
+        "nvim-treesitter/playground",
+        {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            "neovim/nvim-lspconfig",
+        },
+        "EdenEast/nightfox.nvim",
+        "ellisonleao/gruvbox.nvim",
+        "lewis6991/gitsigns.nvim",
+        {
+            "nvim-telescope/telescope.nvim",
+            tag = "0.1.8",
+            -- or                            , branch = '0.1.x',
+            requires = { { "nvim-lua/plenary.nvim" } },
+        },
+        {
+            "VonHeikemen/lsp-zero.nvim",
+            branch = "v3.x",
+            requires = {
+                    --- Uncomment the two plugins below if you want to manage the language servers from neovim
+                    -- {'williamboman/mason.nvim'},
+                    -- {'williamboman/mason-lspconfig.nvim'},
 
-        -- Automatically set up your configuration after cloning packer.nvim
-        -- Put this at the end after all plugins
-        if packer_bootstrap then
-                require("packer").sync()
-        end
-end)
+                    { "hrsh7th/nvim-cmp" },
+                    { "hrsh7th/cmp-nvim-lsp" },
+                    { "L3MON4D3/LuaSnip" },
+                    { "rafamadriz/friendly-snippets" }
+            },
+        },
+        "christoomey/vim-tmux-navigator",
+        "mfussenegger/nvim-dap",
+        "rcarriga/nvim-dap-ui",
+        "rust-lang/rust.vim",
+        "nvimtools/none-ls.nvim",
+        "mrcjkb/rustaceanvim",
+        "nvim-neotest/nvim-nio",
+        "nvim-lua/plenary.nvim",
+        {
+            "ThePrimeagen/harpoon",
+            branch = "harpoon2",
+            requires = { { "nvim-lua/plenary.nvim" } },
+                },
+        "tpope/vim-fugitive",
+        "nvim-tree/nvim-tree.lua",
+        {
+            "folke/which-key.nvim",
+            config = function()
+                    vim.o.timeout = true
+                    vim.o.timeoutlen = 500
+            end
+        },
+        "stevearc/dressing.nvim",
+}
