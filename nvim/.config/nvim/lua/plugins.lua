@@ -85,4 +85,11 @@ require('pckr').add{
                 end
         },
         "stevearc/dressing.nvim",
+        {
+                "kylechui/nvim-surround",
+                tag = "*",
+                config = function ()
+                       require("nvim-surround").setup({})
+                end
+        },
 }
