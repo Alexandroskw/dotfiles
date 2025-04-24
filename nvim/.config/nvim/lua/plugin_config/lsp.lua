@@ -13,11 +13,11 @@ require("mason").setup({})
 require("mason-lspconfig").setup({
 	ensure_installed = { "lua_ls", "pyright" },
 	handlers = {
-		function(lua_ls)
-			require("lspconfig")[lua_ls].setup({})
-		end,
-		function(pyright)
-			require("lspconfig")[pyright].setup({})
-		end,
+                function (lua_ls)
+                        require("lspconfig")[lua_ls].setup({})
+                end,
+                function (pyright)
+                        require("lspconfig")[pyright].setup({})
+                end,
 	},
 })
