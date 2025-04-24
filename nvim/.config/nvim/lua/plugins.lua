@@ -17,48 +17,50 @@ end
 bootstrap_pckr()
 
 require('pckr').add{
-        -- My plugins here
-        -- 'foo1/bar1.nvim';
-        -- 'foo2/bar2.nvim';
-        "wbthomason/packer.nvim",
         {
-            'goolord/alpha-nvim',
-            config = function()
-                    require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
-            end
+                "goolord/alpha-nvim",
+                config = function()
+                        require 'alpha'.setup(require 'alpha.themes.dashboard'.config)
+                end
         },
         "lukas-reineke/indent-blankline.nvim",
         "nvim-lualine/lualine.nvim",
         "nvim-tree/nvim-web-devicons",
-        "nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" },
-        "nvim-treesitter/playground",
+        { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
         {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim",
-            "neovim/nvim-lspconfig",
+                "windwp/nvim-autopairs",
+                event = "InsertEnter",
+                config = function ()
+                       require("nvim-autopairs").setup()
+                end
+        },
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+        "neovim/nvim-lspconfig",
+        {
+                "numToStr/Comment.nvim",
+                config = function ()
+                        require('Comment').setup()
+                end
         },
         "EdenEast/nightfox.nvim",
         "ellisonleao/gruvbox.nvim",
         "lewis6991/gitsigns.nvim",
         {
-            "nvim-telescope/telescope.nvim",
-            tag = "0.1.8",
-            -- or                            , branch = '0.1.x',
-            requires = { { "nvim-lua/plenary.nvim" } },
+                "nvim-telescope/telescope.nvim",
+                tag = "0.1.8",
+                -- or                            , branch = '0.1.x',
+                requires = { "nvim-lua/plenary.nvim" }
         },
         {
-            "VonHeikemen/lsp-zero.nvim",
-            branch = "v3.x",
-            requires = {
-                    --- Uncomment the two plugins below if you want to manage the language servers from neovim
-                    -- {'williamboman/mason.nvim'},
-                    -- {'williamboman/mason-lspconfig.nvim'},
-
-                    { "hrsh7th/nvim-cmp" },
-                    { "hrsh7th/cmp-nvim-lsp" },
-                    { "L3MON4D3/LuaSnip" },
-                    { "rafamadriz/friendly-snippets" }
-            },
+                "VonHeikemen/lsp-zero.nvim",
+                branch = "v3.x",
+                requires = {
+                        { "hrsh7th/nvim-cmp" },
+                        { "hrsh7th/cmp-nvim-lsp" },
+                        { "L3MON4D3/LuaSnip" },
+                        { "rafamadriz/friendly-snippets" }
+                }
         },
         "christoomey/vim-tmux-navigator",
         "mfussenegger/nvim-dap",
@@ -69,18 +71,18 @@ require('pckr').add{
         "nvim-neotest/nvim-nio",
         "nvim-lua/plenary.nvim",
         {
-            "ThePrimeagen/harpoon",
-            branch = "harpoon2",
-            requires = { { "nvim-lua/plenary.nvim" } },
-                },
+                "ThePrimeagen/harpoon",
+                branch = "harpoon2",
+                requires = { "nvim-lua/plenary.nvim" }
+        },
         "tpope/vim-fugitive",
         "nvim-tree/nvim-tree.lua",
         {
-            "folke/which-key.nvim",
-            config = function()
-                    vim.o.timeout = true
-                    vim.o.timeoutlen = 500
-            end
+                "folke/which-key.nvim",
+                config = function()
+                        vim.o.timeout = true
+                        vim.o.timeoutlen = 500
+                end
         },
         "stevearc/dressing.nvim",
 }
