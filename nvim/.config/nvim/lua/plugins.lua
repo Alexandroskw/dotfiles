@@ -20,7 +20,6 @@ require('pckr').add{
         -- My plugins here
         -- 'foo1/bar1.nvim';
         -- 'foo2/bar2.nvim';
-        "wbthomason/packer.nvim",
         {
             'goolord/alpha-nvim',
             config = function()
