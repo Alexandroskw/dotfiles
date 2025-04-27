@@ -15,7 +15,7 @@ decorations = "Full"
 startup_mode = "Maximized"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
-dimensions = { columns = 100, lines = 30 }
+dimensions = { columns = 300, lines = 600 }
 
 [terminal.shell]
 program = "/bin/bash"
@@ -24,7 +24,7 @@ program = "/bin/bash"
 [font]
 normal = { family = "FiraCode Nerd Font Ret", style = "Regular" }
 bold = { family = "FiraCode Nerd Font Mono SemBd", style = "Bold" }
-italic = { family = "FiraCode Nerd Font Mono Light", style = "Italic" }
+italic = { family = "Agave Nerd Font Mono", style = "Italic" }
 
 [terminal]
 osc52 = "CopyPaste"
