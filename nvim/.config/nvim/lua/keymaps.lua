@@ -42,6 +42,14 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>")
 -- Autoformat rust code when the file is saved or closed
 vim.g.rustfmt_autosave = 1
 
--- Transparent screen
--- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
--- vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+-- Tabs
+vim.keymap.set("n", "<leader>t", ":tabedit<CR>", { desc = "New Tab" }) -- New tab
+vim.keymap.set("n", "<leader>ss", ":split<CR><C-w>w", { desc = "Split window horizontal" }) -- Split horizontal
+vim.keymap.set("n", "<leader>vs", ":vsplit<CR><C-w>w", { desc = "Split window vertical" }) -- Split vertical
+
+-- move between windows
+vim.keymap.set("n", "<leader>b", "<C-w>w", { desc = "Move to previous window" })
+vim.keymap.set("", "<leader>h", "<C-w>h", { desc = "Move left between neovim window" })
+vim.keymap.set("", "<leader>l", "<C-w>l", { desc = "Move right between neovim window"})
+vim.keymap.set("", "<leader>j", "<C-w>j", { desc = "Move down between neovim window" })
+vim.keymap.set("", "<leader>k", "<C-w>k", { desc = "Move up between neovim window" })
