@@ -1,0 +1,97 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+        "logo": {
+                "type": "small",
+                "color": {"1": "red", "2": "red"},
+                "padding": {
+                        "top": 5,
+                        "bottom": 5,
+                        "left": 5,
+                        "right": 5
+                },
+        },
+        "display": {
+                "separator": " \u001b[90m "
+        },
+        "key": {
+                "type": "icon",
+                "paddingLeft": 5,
+        },
+  "modules": [
+                {
+                        "type": "title",
+                        "color": {
+                                "user":"red",
+                                "host": "yellow",
+                                "at": "bright_black"
+                        },
+                        "key": "",
+                        "keycolor": "red"
+                },
+                "break",
+                {
+                        "type": "custom",
+                        "format":"\u001b[90m╭─────────────────────────────────Hardware Information─────────────────────────────────╮"
+                },
+                {
+                        "type":"cpu",
+                        "key": "󰻠 CPU",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "gpu",
+                        "key": "󰮂 GPU",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "memory",
+                        "key": " Memory",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "disk",
+                        "key": " Disk",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "custom",
+                        "format": "\u001b[90m╰──────────────────────────────────────────────────────────────────────────────────────╯"
+                },
+                "break",
+                {
+                        "type": "custom",
+                        "format":"\u001b[90m╭─────────────────────────────────Software Information─────────────────────────────────╮"
+                },
+                {
+                        "type": "os",
+                        "key": " Distro",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "kernel",
+                        "key": "󰇺 Kernel",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "packages",
+                        "key": "󰏔 Packages",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "shell",
+                        "key": " Shell",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "terminal",
+                        "key": " Terminal",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "custom",
+                        "format": "\u001b[90m╰──────────────────────────────────────────────────────────────────────────────────────╯"
+                },
+
+                "break",
+  ]
+}
