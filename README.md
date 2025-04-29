@@ -8,48 +8,51 @@ This is my personal configuration of **Neovim**, **Tmux** and **Alacrity**. I al
 
 ### Let's begin
 
-Now you need to install `Neovim`, `Alacritty`, `Tmux` and `stow`
+Now you need to install `Neovim`, `Alacritty`, `Tmux`, `Fastfetch` and `stow`
 
 For Debian distros:
 ```
-$ sudo apt install neovim alacritty tmux stow
+sudo apt install neovim alacritty tmux stow fastfetch
 ```
 For Fedora:
 ```
-$ sudo dnf install neovim alacritty tmux stow
+sudo dnf install neovim alacritty tmux stow fastfetch
 ```
 Just install it with the package manager of your distro. Once you already install all the dependencies clone the repository with `git clone` and go inside the repo:
 ```
-$ cd dotfiles
+cd dotfiles
 ```
 After that you can use the `stow` command:
 ```
-$ stow nvim
-$ stow alacritty
-$ stow tmux
+stow nvim
+stow alacritty
+stow tmux
+stow ff
 ```
 Or if you had a existing configuration:
 ```
-$ stow --adopt nvim
-$ stow --adopt alacritty
-$ stow --adopt tmux
+stow --adopt nvim
+stow --adopt alacritty
+stow --adopt tmux
+stow --adopt ff
 ```
 > [!NOTE]
 > The last commands will move your existing config files to the **dotfiles** carpet
 This will make a *symbolic link* (**Symlink**). Maybe you should checkout in the `~/.config/` path, you can check it with:
 ```
-$ ls -la ~/.config/nvim
-$ ls -la ~/.config/tmux
-$ ls -la ~/.config/alacritty
+ls -la ~/.config/nvim
+ls -la ~/.config/tmux
+ls -la ~/.config/alacritty
+ls -la ~/.config/fastfetch
 ```
 ### "I don't wanna your config files, they suck! How I can go back to my previous configuration?"
 If you wanna go back to your previous configuration you can use:
 ```
-$ git restore .
+git restore .
 ```
 For restoring the ***all*** configuration files. But if you only wanna restore one of them you can use:
 ```
-$ git restore nvim
+git restore nvim
 ```
 And you have it! You restore your last config.
 
@@ -61,11 +64,11 @@ cd ~/dotfiles
 ```
 - `pull` the changes:
 ```
-$ git pull
+git pull
 ```
 - Upgrade the *symbolic links*:
 ```
-$ stow -R nvim alacritty tmux
+stow -R nvim alacritty tmux ff
 ```
 Now you have the most fresh updates for the configs.
 
@@ -78,3 +81,4 @@ Now you have the most fresh updates for the configs.
 2. For the **Neovim** plugins go to `plugins.lua` with Neovim and set the source file in command mode with `:so` or `:source %` and then use `:PackerInstall`.
 3. Like the first point, you need to clone the [themes repository](https://github.com/alacritty/alacritty-theme) and follow the instructions. 
 4. The scripts are for `bash` shell not for `zsh`. Just have to make some changes to the script for avoid some issues at the execution of the script.
+5. For the `.bashrc` you need to install [Starship](https://github.com/starship/starship) framework prompt. See the documentation for your distro.
