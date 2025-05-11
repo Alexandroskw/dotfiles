@@ -9,18 +9,32 @@ end)
 
 -- to learn how to use mason.nvim
 -- read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guide/integrate-with-mason-nvim.md
-require("mason").setup({})
+require("mason").setup({
+	ui = {
+		icons = {
+			server_installed = "󰸞",
+			server_pending = "",
+			server_uninstalled = "",
+		},
+	},
+})
 require("mason-lspconfig").setup({
 	ensure_installed = { "lua_ls", "pyright", "clangd" },
 	handlers = {
-                function (lua_ls)
-                        require("lspconfig")[lua_ls].setup({})
-                end,
-                function (pyright)
-                        require("lspconfig")[pyright].setup({})
-                end,
-                function (clangd)
-                       require("lspconfig")[clangd].setup({})
-                end
+		lsp_zero.default_setup,
+
+		lua_ls = function()
+			require("lspconfig").lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = { globals = { "vim" } },
+						workspace = {
+							library = vim.api.nvim_get_runtime_file("", true),
+							checkThirdParty = false,
+						},
+					},
+				},
+			})
+		end,
 	},
 })
