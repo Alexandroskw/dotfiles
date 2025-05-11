@@ -37,7 +37,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- End of section --
 
 -- Remove the highlights of the search mode
-vim.keymap.set("n", "<leader>nh", ":nohl<CR>")
+vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Remove the highlights of the search mode" })
 
 -- Autoformat rust code when the file is saved or closed
 vim.g.rustfmt_autosave = 1
