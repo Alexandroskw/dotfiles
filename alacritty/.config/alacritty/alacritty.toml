@@ -15,13 +15,14 @@ decorations = "Full"
 startup_mode = "Maximized"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
-dimensions = { columns = 300, lines = 600 }
+dimensions = { columns = 600, lines = 300 }
 
 [terminal.shell]
 program = "/bin/bash"
 
 
 [font]
+size = 10.5
 normal = { family = "FiraCode Nerd Font Ret", style = "Regular" }
 bold = { family = "FiraCode Nerd Font Mono SemBd", style = "Bold" }
 italic = { family = "Agave Nerd Font Mono", style = "Italic" }

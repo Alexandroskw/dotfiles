@@ -21,7 +21,7 @@ fi
 # Busca el archivo descargado
 archivo=$(ls Bridge.AppImage 2>/dev/null)
 if [ -z "$archivo" ]; then
-        echo "No se encuentra el archivo de Bridge"
+        echo "No se encuentra el archivo Bridge.AppImage"
         exit 1
 fi
 
@@ -34,6 +34,11 @@ else
 fi
 
 cd "$INSTALL_DIR"
+if [ ! -d ]; then
+        echo "No se encontró la carpeta"
+        echo "creando..."
+        mkdir -p "quixel-bridge"
+fi
 chmod +x "Bridge.AppImage"
 
 #Crea el archivo Desktop
