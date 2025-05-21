@@ -1,0 +1,115 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+        "logo": {
+                "type": "small",
+                "color": {"1": "red", "2": "blue"},
+                "padding": {
+                        "top": 7,
+                        "left": 5,
+                        "bottom": 5,
+                        "right": 5
+                },
+        },
+        "display": {
+                "separator": "  ",
+        },
+        "key": {
+                "type": "icon",
+                "paddingLeft": 5
+        },
+  "modules": [
+                {
+                        "type": "title",
+                        "color": {
+                                "user": "red",
+                                "host": "yellow",
+                                "at": "bright_black"
+                        },
+                        "key": "\u001b[34m ",
+                },
+                "break",
+                {
+                        "type": "custom",
+                        "format": "┌───────────────────────────Hardware Information───────────────────────────────┐",
+                },
+                {
+                        "type": "cpu",
+                        "key": "    󰻠 CPU",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "gpu",
+                        "key": "    󰮃 GPU",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "host",
+                        "key": "     Host",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "memory",
+                        "key": "     Memory",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "disk",
+                        "key": "    󰨣 Disk",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "battery",
+                        "key": "     Battery",
+                        "keycolor": "red"
+                },
+                {
+                        "type": "custom",
+                        "format": "└──────────────────────────────────────────────────────────────────────────────┘",
+                },
+                "break",
+                {
+                        "type": "custom",
+                        "format": "┌───────────────────────────Software Information───────────────────────────────┐",
+                },
+                {
+                        "type": "os",
+                        "key": "     Distro",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "kernel",
+                        "key": "    󰇺 Kernel",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "packages",
+                        "key": "     Packages",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "shell",
+                        "key": "     Shell",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "terminal",
+                        "key": "    󰞷 Terminal",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "de",
+                        "key": "    󰇄 Desk Env",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "wm",
+                        "key": "     Window manager",
+                        "keycolor": "yellow"
+                },
+                {
+                        "type": "custom",
+                        "format": "└──────────────────────────────────────────────────────────────────────────────┘",
+                },
+                "break",
+  ]
+}
