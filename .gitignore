@@ -1,3 +1,4 @@
 /nvim/.config/nvim/plugin
 tmux/.config/tmux/plugins
 /alacritty/.config/alacritty/themes
+.json
