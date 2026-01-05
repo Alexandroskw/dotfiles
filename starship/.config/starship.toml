@@ -21,12 +21,12 @@ format = """
 [░▒▓](#2e3440)\
 $os\
 $username\
-[](bg:#3b4252 fg:#2e3440)\
+[](bg:#3b4252 fg:#2e3440)\
 $directory\
-[](fg:#3b4252 bg:#434c5e)\
+[](fg:#3b4252 bg:#434c5e)\
 $git_branch\
 $git_status\
-[](fg:#434c5e bg:#4c566a)\
+[](fg:#434c5e bg:#4c566a)\
 $c\
 $python\
 $elixir\
@@ -39,39 +39,38 @@ $nodejs\
 $nim\
 $rust\
 $scala\
-[](fg:#4c566a bg:#5e81ac)\
-$docker_context\
-[](fg:#5e81ac bg:#6272a4)\
-$time\
-[ ](fg:#6272a4)\
-\n
+[](fg:#4c566a bg:#5e81ac)\
 $cmd_duration\
+[](fg:#5e81ac bg:#81a1c1)\
+$time\
+[](fg:#88c0d0)\
+\n
 $character\
 """
 #add_newline = false
 
 [line_break]
-disabled = false
+disabled = true
 
 [username]
 show_always = true
 style_user = "bg:#2e3440"
-style_root = "bg:#9A348E"
+style_root = "bg:#d8dee9"
 format = '[ $user ]($style)'
 disabled = false
 
 [os]
-style = "bg:#9A348E"
+style = "bg:#d8dee9"
 disabled = true # Disabled by default
 
 [directory]
 style = "bg:#3b4252"
 format = "[ $path ]($style)"
 truncation_length = 3
-truncation_symbol = "…/"
+truncation_symbol = "󰇘 "
 
 [directory.substitutions]
-"Documents" = " "
+"Documents" = " "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
@@ -102,13 +101,13 @@ style = "bg:#434c5e"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
-symbol = ""
+symbol = ""
 style = "bg:#434c5e"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
 style = "bg:#434c5e"
-format = '[$all_status$ahead_behind ]($style)'
+format = '[$all_status $ahead_behind ]($style)'
 
 [golang]
 symbol = " "
@@ -131,13 +130,13 @@ style = "bg:#434c5e"
 format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
-symbol = ""
+symbol = ""
 style = "bg:#434c5e"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
-style = "bg:##434c5e"
+style = "bg:#434c5e"
 format = '[ $symbol ($version) ]($style)'
 
 [rust]
@@ -153,14 +152,14 @@ format = '[ $symbol ($version) ]($style)'
 [time]
 disabled = false
 time_format = "%R" # Hour:Minute Format
-style = "bg:#6272a4"
+style = "bg:#88c0d0"
 format = '[  $time ]($style)'
-	
+
 [character]
-success_symbol = '[ ➜](#6272a4)'
-error_symbol = '[ ➜](bold red)'
-#style = "bg:#6272a4"
+success_symbol = '[ 󱞪](#A3BE8C)'
+error_symbol = '[ 󱞪](bold red)'
 
 [cmd_duration]
 min_time = 500
-format = ' [$duration](#6272a4)'
+style = "bg:#5e81ac"
+format = '[ $duration ]($style)(#6272a4)'
