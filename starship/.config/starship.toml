@@ -1,4 +1,3 @@
-# Nordic-darker color palette
 #2e3440	user
 #3b4252	dir
 #434c5e	git
@@ -9,6 +8,7 @@
 # some extra symbols
 # 
 # 
+# ░▒▓
 
 #           _     _ 
 #  ______ _(_) __| |
@@ -18,7 +18,7 @@
  
 # ---------------------------------------------------------------
 format = """
-[░▒▓](#2e3440)\
+[ ](#2e3440)\
 $os\
 $username\
 [](bg:#3b4252 fg:#2e3440)\
@@ -41,11 +41,9 @@ $rust\
 $scala\
 [](fg:#4c566a bg:#5e81ac)\
 $cmd_duration\
-[](fg:#5e81ac bg:#81a1c1)\
+[](fg:#5e81ac bg:#88c0d0)\
 $time\
-[](fg:#88c0d0)\
-\n
-$character\
+[](fg:#88c0d0) 
 """
 #add_newline = false
 
@@ -156,7 +154,7 @@ style = "bg:#88c0d0"
 format = '[  $time ]($style)'
 
 [character]
-success_symbol = '[ 󱞪](#A3BE8C)'
+success_symbol = '[ 󱞪](#5e81ac)'
 error_symbol = '[ 󱞪](bold red)'
 
 [cmd_duration]
