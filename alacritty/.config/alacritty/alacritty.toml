@@ -1,6 +1,6 @@
 [general]
 import = [
-        "~/.config/alacritty/themes/themes/argonaut.toml"
+    "~/.config/alacritty/themes/themes/nightfox.toml"
 ]
 
 [env]
@@ -15,7 +15,7 @@ decorations = "Full"
 startup_mode = "Maximized"
 dynamic_title = true
 class = { instance = "Alacritty", general = "Alacritty" }
-dimensions = { columns = 600, lines = 300 }
+dimensions = { columns = 186, lines = 72 }
 
 [terminal.shell]
 program = "/bin/bash"
@@ -23,7 +23,7 @@ program = "/bin/bash"
 
 [font]
 size = 10.5
-normal = { family = "FiraCode Nerd Font Ret", style = "Regular" }
+normal = { family = "FiraCode Nerd Font Propo Med", style = "Regular" }
 bold = { family = "FiraCode Nerd Font Mono SemBd", style = "Bold" }
 italic = { family = "Agave Nerd Font Mono", style = "Italic" }
 
