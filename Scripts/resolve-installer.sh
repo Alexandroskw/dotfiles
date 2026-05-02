@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # Colores
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -35,7 +35,7 @@ fi
 echo -e "${BLUE}[INFO]${NC} Buscando el archivo descomprimido"
 run_file=$(DaVinci_Resolve_*_Linux.run 2>/dev/null | head -n 1)
 if [ -z "$run_file" ]; then
-    echo -e "${RED}[ERROR]${NC} No se encontró el a${CYAN}.run${NC}"
+    echo -e "${RED}[ERROR]${NC} No se encontró el archivo${CYAN}.run${NC}"
     exit 1
 fi
 
@@ -54,7 +54,7 @@ echo -e "${BLUE}[INFO]${NC} Bibliotecas movidas."
 
 # Instalando el paquete que manda error
 if rpm -q libxcrypt-compat &>/dev/null; then
-    echo -e "${BLUE}[INFO]${NC}Paquete ya instalado"
+    echo -e "${BLUE}[INFO]${NC}Paquete ya instalado. Saltando"
 else
     echo -e "${YELLOW}[INFO]${NC} Instalando libxcrypt-compat..."
     sudo dnf install libxcrypt-compat -y
