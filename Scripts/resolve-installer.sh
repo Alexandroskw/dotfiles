@@ -60,4 +60,18 @@ else
     sudo dnf install libxcrypt-compat -y
 fi
 
+<<<<<<< HEAD
 echo -e "\n${GREEN}[OK]${NC} DaVinci Resolve ha sido instalado."
+=======
+html_file=$(ls Linux_Installation_Instructions.html 2> /dev/null | head -n 1)
+echo -e "${YELLOW}[WARNING] ¿Deseas borrar los archivos restantes?${NC}"
+read -p "$(echo -e ${YELLOW}[s/n]: ${NC})" cleanup
+
+# Borrando los archivos restantes
+if [ $cleanup =~ ^[sS]$ ]; then
+    rm "$archivo $run_file $html_file"
+    echo -e "\n${GREEN}[OK]${NC} Archivos removidos."
+fi
+
+echo -e "\n${GREEN}[OK]${NC} DaVinci Resolve ha sido instalado!"
+>>>>>>> 1f8d338 (Testing)
