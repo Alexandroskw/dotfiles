@@ -33,7 +33,7 @@ else
 fi
 
 echo -e "${BLUE}[INFO]${NC} Buscando el archivo descomprimido"
-run_file=$(DaVinci_Resolve_*_Linux.run 2>/dev/null | head -n 1)
+run_file=$(ls DaVinci_Resolve_*_Linux.run 2>/dev/null | head -n 1)
 if [ -z "$run_file" ]; then
     echo -e "${RED}[ERROR]${NC} No se encontró el archivo${CYAN}.run${NC}"
     exit 1
@@ -54,15 +54,12 @@ echo -e "${BLUE}[INFO]${NC} Bibliotecas movidas."
 
 # Instalando el paquete que manda error
 if rpm -q libxcrypt-compat &>/dev/null; then
-    echo -e "${BLUE}[INFO]${NC}Paquete ya instalado. Saltando"
+    echo -e "${BLUE}[INFO]${NC} Paquete ya instalado. Saltando"
 else
     echo -e "${YELLOW}[INFO]${NC} Instalando libxcrypt-compat..."
     sudo dnf install libxcrypt-compat -y
 fi
 
-<<<<<<< HEAD
-echo -e "\n${GREEN}[OK]${NC} DaVinci Resolve ha sido instalado."
-=======
 html_file=$(ls Linux_Installation_Instructions.html 2> /dev/null | head -n 1)
 echo -e "${YELLOW}[WARNING] ¿Deseas borrar los archivos restantes?${NC}"
 read -p "$(echo -e ${YELLOW}[s/n]: ${NC})" cleanup
@@ -74,4 +71,3 @@ if [ $cleanup =~ ^[sS]$ ]; then
 fi
 
 echo -e "\n${GREEN}[OK]${NC} DaVinci Resolve ha sido instalado!"
->>>>>>> 1f8d338 (Testing)

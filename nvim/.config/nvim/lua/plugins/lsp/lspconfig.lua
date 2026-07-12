@@ -23,20 +23,7 @@ return {
         },
         config = function()
             -- Configurar handlers
-            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-                vim.lsp.handlers.hover, {
-                    border = "rounded"
-                }
-            )
-
-            vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-                vim.lsp.handlers.signature_help, {
-                    border = "rounded"
-                }
-            )
-
             vim.opt.updatetime = 250
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
 
             -- Configurar autocomando para cuando LSP se conecte
             vim.api.nvim_create_autocmd("LspAttach", {

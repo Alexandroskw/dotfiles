@@ -8,10 +8,25 @@ return {
     {
         -- surround
         "kylechui/nvim-surround",
-        version = "^3.0.0",
+        version = "^4.0.0",
         event = "VeryLazy",
         config = function()
-            require("nvim-surround").setup({})
+            require("which-key").add({
+                mode = { "n" },
+                { "ys",  desc = "Add surrounding" },
+                { "yss", desc = "Add surrounding to current line" },
+                { "yS",  desc = "Add surrounding on new lines" },
+                { "ySS", desc = "Add surrounding on new lines to current line" },
+                { "ds",  desc = "Delete surrounding" },
+                { "cs",  desc = "Change surrounding" },
+                { "cS",  desc = "Change surrounding on new lines" },
+            })
+
+            require("which-key").add({
+                mode = { "v" },
+                { "S",  desc = "Add surrounding to selection" },
+                { "gS", desc = "Add surrounding to selection on new lines" },
+            })           require("nvim-surround").setup({})
         end
     },
     {

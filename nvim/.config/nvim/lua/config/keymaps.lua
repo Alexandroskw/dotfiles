@@ -11,16 +11,17 @@ vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 vim.opt.colorcolumn = "120"
 vim.opt.clipboard = "unnamedplus" -- clipboard for copy paste between other apps and neovim
+vim.o.winborder = "rounded"
 
 -- Tabs indentation
 vim.opt.tabstop = 2
--- vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.scrolloff = 10
 
+vim.opt.showmatch = true
 vim.opt.wrap = false
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -37,6 +38,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
+vim.keymap.set("n", "q", "<nop>")
+
 -- Keeps the cursor in the middle in search mode
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
@@ -47,6 +50,8 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Remove the highlights o
 
 -- Autoformat rust code when the file is saved or closed
 vim.g.rustfmt_autosave = 1
+
+vim.keymap.set("n", "<leader>m", ":Mason<CR>", { desc = "Open Mason installer" })
 
 -- Tabs
 vim.keymap.set("n", "<leader>t", ":tabedit<CR>", { desc = "New Tab" }) -- New tab

@@ -4,7 +4,6 @@ return {
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
             local lualine = require("lualine")
-            local status = require("lazy.status")
 
             local palette = {
                 nord9 = "#81a1c1",
