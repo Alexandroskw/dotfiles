@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]; then
-    echo -e "\033[0;31mEjecuta como superusuario (sudo) este script\033[0m"
-    exit 1
-fi
-
 # Colores
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -15,15 +10,25 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
+if [ "$EUID" -ne 0 ]; then
+    echo -e "${RED}Ejecuta como superusuario (sudo) este script${NC}"
+    exit 1
+fi
+
+if [ -z "${SUDO_USER:-}" ]; then
+    echo -e "${RED}[ERROR]${NC} Ejecuta el script con sudo no directamente como root"
+    exit 1
+fi
+
 # Configuración
 MAX_VERSIONS=3 # Número máximo de versiones a mantener
 
 SUDO_USER_HOME=$(getent passwd "$SUDO_USER" | cut -d: -f6)
 DOWNLOAD_DIR="$SUDO_USER_HOME/Descargas"
 INSTALL_BASE_DIR="/opt"
-LOG_FILE="/tmp/blender_install.log"
 
-cd "$DOWNLOAD_DIR" || exit 1
+# Creando de forma segura un archivo temporal para los logs del instalador
+LOG_FILE=$(mktemp /tmp/blender_install.log)
 
 echo -e "${CYAN}
 __________.__                     .___             .__                 __         .__  .__                
@@ -47,6 +52,8 @@ version_gt() {
     test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"
 }
 
+cd "$DOWNLOAD_DIR" || { echo -e "${RED}[ERROR]${NC} No se pudo acceder a $DOWNLOAD_DIR"; exit 1; }
+
 # Verificar espacio en disco
 echo -e "\n${BLUE}[INFO]${NC} Verificando espacio en disco..."
 FREE_SPACE=$(df -m /opt | awk 'NR==2 {print $4}')
@@ -61,7 +68,7 @@ echo -e "${GREEN}[OK]${NC} Espacio suficiente: ${FREE_SPACE}MB disponibles"
 echo -e "\n${BLUE}[INFO]${NC} Buscando archivo de Blender en ${CYAN}$DOWNLOAD_DIR${NC}"
 archivo=$(ls blender-*-linux-x64.tar.xz 2>/dev/null | head -n 1)
 if [ -z "$archivo" ]; then
-    echo -e "${RED}[ERROR]${NC} No se encuentra el archivo de blender"
+    echo -e "${RED}[ERROR]${NC} No se encuentra el archivo de blender."
     exit 1
 fi
 echo -e "${GREEN}[OK]${NC} Archivo encontrado: ${CYAN}$archivo${NC}"
@@ -69,13 +76,12 @@ echo -e "${GREEN}[OK]${NC} Archivo encontrado: ${CYAN}$archivo${NC}"
 # Busca la versión del archivo descargado de Blender
 version=$(echo $archivo | grep -oP 'blender-\K[0-9.]+(?=-linux-x64)' 2>/dev/null)
 if [ -z "$version" ]; then
-    echo -e "${RED}[ERROR]${NC} No se pudo determinar la versión de Blender"
+    echo -e "${RED}[ERROR]${NC} No se pudo determinar la versión de Blender."
     exit 1
 fi
 
 # Obtener versión mayor.menor (ej: 4.5 de 4.5.1)
 major_minor_version=$(get_major_minor_version "$version")
-
 log_message "Detectada versión a instalar: $version (serie $major_minor_version)"
 echo -e "${GREEN}[OK]${NC} Versión detectada: ${MAGENTA}$version${NC} (serie ${MAGENTA}$major_minor_version${NC})"
 
@@ -104,103 +110,113 @@ if [ ${#sorted_versions[@]} -gt 0 ]; then
         fi
     done
 
-        # Verificar si ya existe esta serie de versión
-        existing_series=""
-        for installed_ver in "${sorted_versions[@]}"; do
-            installed_major_minor=$(get_major_minor_version "$installed_ver")
-            if [ "$installed_major_minor" = "$major_minor_version" ]; then
-                existing_series="$installed_ver"
-                break
-            fi
-        done
+   # Verificar si ya existe esta serie de versión
+   existing_series=""
 
-        if [ -n "$existing_series" ]; then
-            echo -e "\n${YELLOW}⚠️  Ya existe una instalación de la serie $major_minor_version${NC} (versión ${MAGENTA}$existing_series${NC})"
-            echo -e "${YELLOW}¿Qué deseas hacer?${NC}"
-            echo -e "  ${CYAN}1.${NC} Actualizar (reemplazar $existing_series con $version)"
-            echo -e "  ${CYAN}2.${NC} Mantener ambas versiones"
-            echo -e "  ${CYAN}3.${NC} Cancelar instalación"
-            read -p "$(echo -e ${YELLOW}Selecciona una opción [1-3]: ${NC})" update_choice
+   for installed_ver in "${sorted_versions[@]}"; do
+       installed_major_minor=$(get_major_minor_version "$installed_ver")
+       if [ "$installed_major_minor" = "$major_minor_version" ]; then
+           existing_series="$installed_ver"
+           break
+       fi
+   done
 
-            case $update_choice in
-                1)
-                    log_message "Actualizando Blender $existing_series a $version"
-                    echo -e "${GREEN}[INFO]${NC} Actualizando Blender ${MAGENTA}$existing_series${NC} → ${MAGENTA}$version${NC}"
-                    rm -rf "$INSTALL_BASE_DIR/blender-$existing_series"
-                    # Actualizar el array de versiones
-                    sorted_versions=("${sorted_versions[@]/$existing_series}")
-                    ;;
-                2)
-                    log_message "Manteniendo ambas versiones"
-                    echo -e "${BLUE}[INFO]${NC} Manteniendo ambas versiones"
-                    ;;
-                3)
-                    log_message "Instalación cancelada por el usuario"
-                    echo -e "${YELLOW}[INFO]${NC} Instalación cancelada"
-                    exit 0
-                    ;;
-                *)
-                    echo -e "${RED}[ERROR]${NC} Opción inválida"
-                    exit 1
-                    ;;
-            esac
-        fi
+   if [ -n "$existing_series" ]; then
+       echo -e "\n${YELLOW}⚠️  Ya existe una instalación de la serie $major_minor_version${NC} (versión ${MAGENTA}$existing_series${NC})"
+       echo -e "${YELLOW}¿Qué deseas hacer?${NC}"
+       echo -e "  ${CYAN}1.${NC} Actualizar (reemplazar $existing_series con $version)"
+       echo -e "  ${CYAN}2.${NC} Mantener ambas versiones"
+       echo -e "  ${CYAN}3.${NC} Cancelar instalación"
+       printf "${YELLOW}Selecciona una opción [1-3]: ${NC}"
+       read -r update_choice
 
-        # Verificar límite de versiones
-        # Contar versiones que quedarán después de la instalación
-        future_count=${#sorted_versions[@]}
-            if [ -z "$existing_series" ] || [ "$update_choice" != "1" ]; then
-                ((future_count++))
-            fi
+       case $update_choice in
+           1)
+               log_message "Actualizando Blender $existing_series a $version"
+               echo -e "${GREEN}[INFO]${NC} Actualizando Blender ${MAGENTA}$existing_series${NC} → ${MAGENTA}$version${NC}"
+               rm -rf "$INSTALL_BASE_DIR/blender-$existing_series"
+               new_sorted=()
+               for v in "${sorted_versions[@]}"; do
+                   [ "$v" != "$existing_series" ] && new_sorted+=("$v")
+               done
+               if [ ${#new_sorted[@]} -gt 0 ]; then
+                   sorted_versions=("$new_sorted[@]")
+               else
+                   sorted_versions=()
+               fi
+               ;;
+           2)
+               log_message "Manteniendo ambas versiones"
+               echo -e "${BLUE}[INFO]${NC} Manteniendo ambas versiones"
+               ;;
+           3)
+               log_message "Instalación cancelada por el usuario"
+               echo -e "${YELLOW}[INFO]${NC} Instalación cancelada"
+               exit 0
+               ;;
+           *)
+               echo -e "${RED}[ERROR]${NC} Opción inválida"
+               exit 1
+               ;;
+       esac
+   fi
 
-            if [ $future_count -gt $MAX_VERSIONS ]; then
-                echo -e "\n${YELLOW}⚠️  ATENCIÓN: Después de esta instalación habrá $future_count versiones${NC}"
-                echo -e "${YELLOW}Se recomienda mantener máximo $MAX_VERSIONS versiones para ahorrar espacio${NC}"
-                echo -e "\n${YELLOW}¿Deseas gestionar las versiones antiguas ahora?${NC}"
-                echo -e "  ${CYAN}1.${NC} Sí, revisar versiones antiguas"
-                echo -e "  ${CYAN}2.${NC} No, mantener todas"
-                read -p "$(echo -e ${YELLOW}Selecciona una opción [1-2]: ${NC})" manage_versions
+   # Verificar límite de versiones
+   # Contar versiones que quedarán después de la instalación
+   future_count=${#sorted_versions[@]}
+   if [ -z "$existing_series" ] || [ "$update_choice" != "1" ]; then
+       future_count=$(( future_count + 1 ))
+   fi
 
-                if [ "$manage_versions" = "1" ]; then
-                    echo -e "\n${BLUE}=== Gestión de versiones instaladas ===${NC}"
-                    for i in "${!sorted_versions[@]}"; do
-                        installed_ver="${sorted_versions[$i]}"
+   if [ "$future_count" -gt "$MAX_VERSIONS" ]; then
+       echo -e "\n${YELLOW}⚠️  ATENCIÓN: Después de esta instalación habrá $future_count versiones${NC}"
+       echo -e "${YELLOW}Se recomienda mantener máximo $MAX_VERSIONS versiones para ahorrar espacio${NC}"
+       echo -e "\n${YELLOW}¿Deseas gestionar las versiones antiguas ahora?${NC}"
+       echo -e "  ${CYAN}1.${NC} Sí, revisar versiones antiguas"
+       echo -e "  ${CYAN}2.${NC} No, mantener todas"
+       printf "${YELLOW}Selecciona una opción [1-2]: ${NC}"
+       read -r manage_versions
 
-                                # Saltar versiones vacías o la que estamos actualizando
-                                if [ -z "$installed_ver" ] || ([ "$installed_ver" = "$existing_series" ] && [ "$update_choice" = "1" ]); then
-                                    continue
-                                fi
+       if [ "$manage_versions" = "1" ]; then
+           echo -e "\n${BLUE}=== Gestión de versiones instaladas ===${NC}"
+           for i in "${!sorted_versions[@]}"; do
+               installed_ver="${sorted_versions[$i]}"
 
-                                if [ $i -ge $((MAX_VERSIONS - 1)) ]; then
-                                    echo -e "\n${YELLOW}Blender $installed_ver${NC} ${YELLOW}(recomendado eliminar)${NC}"
-                                else
-                                    echo -e "\n${GREEN}Blender $installed_ver${NC}"
-                                fi
+               # Saltar entradas vacías o la versión que ya se eliminó
+               [ -z "$installed_ver" ] && continue
+               [ "$installed_ver" = "$existing_series" ] && [ "$update_choice" = "1" ] && continue
 
-                                echo -e "  ${CYAN}1.${NC} Conservar"
-                                echo -e "  ${CYAN}2.${NC} Eliminar"
-                                read -p "$(echo -e ${YELLOW}Selecciona una opción [1-2]: ${NC})" action
+               if [ "$i" -ge $(( MAX_VERSIONS - 1 )) ]; then
+                   echo -e "\n${YELLOW}Blender $installed_ver${NC} ${YELLOW}(recomendado eliminar)${NC}"
+               else
+                   echo -e "\n${GREEN}Blender $installed_ver${NC}"
+               fi
 
-                                case $action in
-                                    1)
-                                        log_message "Conservando Blender $installed_ver"
-                                        echo -e "${GREEN}[OK]${NC} Conservando Blender ${MAGENTA}$installed_ver${NC}"
-                                        ;;
-                                    2)
-                                        log_message "Eliminando Blender $installed_ver"
-                                        echo -e "${YELLOW}[INFO]${NC} Eliminando Blender ${MAGENTA}$installed_ver${NC}..."
-                                        rm -rf "$INSTALL_BASE_DIR/blender-$installed_ver"
-                                        rm -f "/usr/local/bin/blender-$installed_ver"
-                                        rm -f "/usr/share/applications/blender-$installed_ver.desktop"
-                                        echo -e "${GREEN}[OK]${NC} Eliminado"
-                                        ;;
-                                    *)
-                                        echo -e "${BLUE}[INFO]${NC} Opción inválida, conservando la versión"
-                                        ;;
-                                esac
-                            done
-                fi
-            fi
+               echo -e "  ${CYAN}1.${NC} Conservar"
+               echo -e "  ${CYAN}2.${NC} Eliminar"
+               printf "${YELLOW}Selecciona una opción [1-2]: ${NC}"
+               read -r action
+
+               case "$action" in
+                   1)
+                       log_message "Conservando Blender $installed_ver"
+                       echo -e "${GREEN}[OK]${NC} Conservando Blender ${MAGENTA}$installed_ver${NC}"
+                       ;;
+                   2)
+                       log_message "Eliminando Blender $installed_ver"
+                       echo -e "${YELLOW}[INFO]${NC} Eliminando Blender ${MAGENTA}$installed_ver${NC}..."
+                       rm -rf "$INSTALL_BASE_DIR/blender-$installed_ver"
+                       rm -f "/usr/local/bin/blender-$installed_ver"
+                       rm -f "/usr/share/applications/blender-$installed_ver.desktop"
+                       echo -e "${GREEN}[OK]${NC} Eliminado"
+                       ;;
+                   *)
+                       echo -e "${BLUE}[INFO]${NC} Opción inválida, conservando la versión"
+                       ;;
+               esac
+           done
+       fi
+   fi
 fi
 
 # Directorio de instalación específico para esta versión
@@ -209,7 +225,12 @@ INSTALL_DIR="$INSTALL_BASE_DIR/blender-$version"
 # Extrae el comprimido
 echo -e "\n${BLUE}[INFO]${NC} Extrayendo ${CYAN}$archivo${NC}..."
 log_message "Extrayendo $archivo"
-tar -xf "$archivo"
+# Verificando si tar tuvo éxito al extraer el comprimido
+if ! tar -xf "$archivo"; then
+    echo -e "${RED}[ERROR]${NC} Fallo al extraer el archivo."
+    log_message "ERROR: Fallo al extraer ${archivo}"
+    exit 1
+fi
 
 # Busca la carpeta extraída
 carpeta=$(ls -d blender-*-linux-x64 2>/dev/null | head -n 1)
@@ -248,7 +269,7 @@ for dir in "$INSTALL_BASE_DIR"/blender-*; do
 done
 
 ln -sf "$INSTALL_BASE_DIR/blender-$latest_version/blender" "/usr/local/bin/blender"
-log_message "Enlace simbólico principal 'blender' apunta a la versión $latest_version"
+log_message "Enlace simbólico principal 'blender'  $latest_version"
 echo -e "${GREEN}[OK]${NC} Enlace principal ${CYAN}blender${NC} → ${MAGENTA}$latest_version${NC}"
 
 # Crear archivo desktop específico de versión
@@ -290,9 +311,39 @@ echo -e "${GREEN}[OK]${NC} Archivo desktop principal actualizado"
 # Actualiza la base de datos de aplicaciones
 update-desktop-database
 
+USER_DESKTOP="$SUDO_USER_HOME/.local/share/applications/blender.desktop"
+if [ -f "$USER_DESKTOP" ]; then
+    echo -e "\n${YELLOW}[AVISO]${NC} Existe un archivo desktop de usuario que sobreescribe al del sistema:"
+    echo -e "         ${CYAN}$USER_DESKTOP${NC}"
+    echo -e "${YELLOW}Mientras exista, el lanzador general ignorará las actualizaciones de versión.${NC}"
+    echo -e " ${CYAN}1.${NC} Eliminar (recomendado)"
+    echo -e " ${CYAN}1.${NC} Conservar"
+    printf "${YELLOW}Selecciona una opción [1-2]: ${NC}"
+    read -r  user_desktop_choice
+    if [ "$user_desktop_choice" ]; then
+        rm -f "$USER_DESKTOP"
+        log_message "Override de usuario eliminado: $USER_DESKTOP"
+        echo -e "${GREEN}[OK]${NC} Override eliminado"
+    else
+        log_message "Override de usuario conservado: $USER_DESKTOP"
+        echo -e "${YELLOW}[AVISO]${NC} El lanzador general puede no apuntar a la versión más reciente"
+    fi
+fi
+
+echo -e "\n${BLUE}[INFO]${NC} Actualizando caché de KDE..."
+if sudo -u "$SUDO_USER" kbuildsycoca6 --noincremental 2>/dev/null || sudo -u "$SUDO_USER" kbuildsycoca5 --noincremental 2>/dev/null; then
+    log_message "Caché de KDE actualizado"
+    echo -e "${GREEN}[OK]${NC} Caché KDE actualizado"
+else
+    log_message "No se pudo refrescar caché de KDE automáticamente"
+    echo -e "${YELLOW}[AVISO]${NC} Caché KDE no se pudo actualizar."
+    echo -e "Cierra sesión o reinicia para ver los cambios."
+fi
+
 # Eliminar comprimido
 echo -e "\n${YELLOW}¿Deseas eliminar el archivo comprimido?${NC}"
-read -p "$(echo -e ${YELLOW}[s/n]: ${NC})" cleanup
+printf "${YELLOW}[s/n]: ${NC}"
+read -r cleanup
 if [[ $cleanup =~ ^[Ss]$ ]]; then
     rm "$archivo"
     log_message "Archivo eliminado"
@@ -307,7 +358,7 @@ version_count=0
 for dir in $(ls -d "$INSTALL_BASE_DIR"/blender-* 2>/dev/null | sort -Vr); do
     if [ -d "$dir" ]; then
         ver=$(basename "$dir" | sed 's/blender-//')
-        ((version_count++))
+        version_count=$(( version_count + 1 ))
         if [ "$ver" = "$latest_version" ]; then
             echo -e "  ${GREEN}●${NC} Blender ${MAGENTA}$ver${NC} ${GREEN}(principal)${NC}"
         else
