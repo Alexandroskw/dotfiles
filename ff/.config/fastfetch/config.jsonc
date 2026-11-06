@@ -37,6 +37,10 @@
             "type": "os"
         },
         {
+            "key": "│ {#35} kerenel  {#keys} │",
+            "type": "kernel"
+        },
+        {
             "key": "│ {#36}󰇄 desktop {#keys}│",
             "type": "de"
         },
@@ -55,7 +59,7 @@
         },
         {
             "key": "│ {#34}󰊗 gpu     {#keys}│",
-            "type": "gpu",
+            "type": "gpu"
         },
         {
             "key": "│ {#35}󰉉 disk    {#keys}│",
@@ -72,7 +76,8 @@
         },
         {
             "key": "│ {#35} kernel  {#keys}│",
-            "type": "kernel"
+            "type": "colors",
+            "symbol": "square"
         },
         {
             "key": "╰───────────╯",
