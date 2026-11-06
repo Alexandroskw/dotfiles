@@ -19,17 +19,18 @@ opacity = 0.8
 decorations = "Full"
 startup_mode = "Maximized"
 dynamic_title = true
+dynamic_padding = true
 class = { instance = "Alacritty", general = "Alacritty" }
-dimensions = { columns = 186, lines = 72 }
+dimensions = { columns = 187, lines = 72 }
 
 [terminal.shell]
 program = "/bin/bash"
 
 [font]
-size = 11
-normal = { family = "FiraMono Nerd Font Propo Medium", style = "Regular" }
-bold = { family = "FiraCode Nerd Font Mono SemBd", style = "Bold" }
-italic = { family = "Agave Nerd Font Mono", style = "Italic" }
+size = 12
+normal = { family = "EnvyCodeR Nerd Font Mono", style = "Regular" }
+bold = { family = "EnvyCodeR Nerd Font Mono", style = "Bold" }
+italic = { family = "EnvyCodeR Nerd Font Mono", style = "Italic" }
 
 [terminal]
 osc52 = "CopyPaste"
