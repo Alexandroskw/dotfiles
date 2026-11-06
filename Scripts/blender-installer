@@ -28,7 +28,7 @@ DOWNLOAD_DIR="$SUDO_USER_HOME/Descargas"
 INSTALL_BASE_DIR="/opt"
 
 # Creando de forma segura un archivo temporal para los logs del instalador
-LOG_FILE=$(mktemp /tmp/blender_install.log)
+LOG_FILE=$(mktemp /tmp/blender_install_XXXXXX.log)
 
 echo -e "${CYAN}
 __________.__                     .___             .__                 __         .__  .__                
