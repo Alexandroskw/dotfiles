@@ -13,13 +13,27 @@ export PATH
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
+HISTCONTROL=ignoreboth:ignoredups:erasedups
 
 # User specific aliases and functions
-alias la="ls -labh"
-alias nvidia="sudo nvidia-settings -a GPUFanControlState=1 -a GPUTargetFanSpeed=75"
+alias ls="ls -l --color=always"
+alias la="ls -la --color=always"
 alias ff="fastfetch"
-alias flushdns="sudo systemd-resolve --flush-caches"
-alias gitpop="git stash pop"
+alias flush-dns="sudo systemd-resolve --flush-caches"
+alias pop="git stash pop"
+alias drop="git stash drop"
+alias status="git status"
+alias diff="git diff"
+alias cat="bat --color=always"
+alias vim="nvim"
+alias cls="clear && ff"
+alias rup="rustup update"
+alias rf="rm -rf"
+alias ifconfig="ip addr show"
+alias apagar="shutdown now"
+alias reset-plasma="kquitapp6 plasmashell; kstart plasmashell"
+alias ll="ollama"
+alias list="ollama list"
 
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
@@ -30,9 +44,9 @@ if [ -d ~/.bashrc.d ]; then
 fi
 
 start_tmux(){
-        if [ -z "$TMUX" ]; then
-                tmux attach -t main || tmux new -As main
-        fi
+    if [ -z "$TMUX" ]; then
+        tmux attach -t main || tmux new -A -s main
+    fi
 }
 
 unset rc
@@ -41,4 +55,7 @@ unset rc
 start_tmux
 fastfetch
 
+eval "$(thefuck --alias)"
 eval "$(starship init bash)"
+eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
